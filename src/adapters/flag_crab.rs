@@ -5,7 +5,6 @@ use rocket_contrib::serve::StaticFiles;
 
 use crate::adapters::persistence::flag_repo::FlagRepo;
 use crate::domain::flag::Flag;
-use crate::usecases::usecase::UseCase;
 use crate::usecases::get_all_flags::GetAllFlags;
 
 #[allow(dead_code)]
