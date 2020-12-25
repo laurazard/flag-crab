@@ -21,8 +21,8 @@ impl FlagRepo for InMemoryFlagRepo {
         self.flags.retain(|flag| flag.get_id() != id)
     }
 
-    fn get_all_flags(&self) -> &Vec<Flag> {
-        &self.flags
+    fn get_all_flags(&self) -> Vec<Flag> {
+        self.flags.clone()
     }
 
     fn length(&self) -> usize {
