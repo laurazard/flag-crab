@@ -6,7 +6,6 @@ pub struct Flag {
     description: String
 }
 
-#[allow(dead_code)]
 impl Flag {
     pub fn new(id: u32, description: String) -> Flag {
         Flag {

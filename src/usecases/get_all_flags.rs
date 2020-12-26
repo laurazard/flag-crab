@@ -3,12 +3,12 @@ use crate::adapters::persistence::flag_repo::FlagRepo;
 use std::sync::{Mutex, Arc};
 
 pub struct GetAllFlags {
-    flag_repo: Arc<Mutex<dyn FlagRepo>>
+    flag_repo: Arc<Mutex<Box<dyn FlagRepo>>>
 }
 
 impl GetAllFlags {
 
-    pub fn new(flag_repo: Arc<Mutex<dyn FlagRepo>>) -> Self {
+    pub fn new(flag_repo: Arc<Mutex<Box<dyn FlagRepo>>>) -> Self {
         GetAllFlags {
             flag_repo
         }
