@@ -46,12 +46,6 @@ impl FlagCrab {
     pub fn start(flag_repo: Box<dyn FlagRepo>) {
         let flag_repo_mutex: Arc<Mutex<Box<dyn FlagRepo>>> = Arc::new(Mutex::new(flag_repo));
 
-        // instantiate some crappy data to make sure something works
-        {
-            let mut mutable_repo_reference = flag_repo_mutex.lock().unwrap();
-            mutable_repo_reference.add_flag(Flag::new(17, String::from("test")));
-        }
-
         let get_all_flags_usecase = GetAllFlags::new(Arc::clone(&flag_repo_mutex));
         let add_flag_usecase = AddFlag::new(Arc::clone(&flag_repo_mutex));
 

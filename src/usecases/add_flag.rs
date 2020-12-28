@@ -18,3 +18,23 @@ impl AddFlag {
         repo.add_flag(flag)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::adapters::persistence::in_memory_flag_repo::InMemoryFlagRepo;
+
+    #[test]
+    fn test_invoke() {
+        let mut repo: Arc<Mutex<Box<dyn FlagRepo>>> = Arc::new(Mutex::new(Box::new(InMemoryFlagRepo::new())));
+        let mut usecase = AddFlag::new(Arc::clone(&repo));
+        let flag = Flag::new(7, String::from("test flag"));
+        let expected_flag = flag.clone();
+
+        usecase.invoke(flag);
+
+        assert_eq!(expected_flag, repo.lock().unwrap().get_all_flags()[0]);
+        assert_eq!(1, repo.lock().unwrap().length());
+    }
+
+}
