@@ -13,14 +13,14 @@ use crate::domain::flag::Flag;
 
 #[derive(FromForm)]
 pub(crate) struct FlagInput {
-    id: u32,
     name: String,
 }
 
 #[post("/", data = "<flag_input>")]
 pub(crate) fn create_flag(flag_input: Form<FlagInput>, add_flag: State<Mutex<AddFlag>>, get_all_flags: State<GetAllFlags>) -> Template {
+    let new_flag = Flag::new(0, flag_input.name.clone());
     {
-        add_flag.lock().unwrap().invoke(Flag::new(flag_input.id.clone(), flag_input.name.clone()));
+        add_flag.lock().unwrap().invoke(new_flag);
     }
     let context: HashMap<&str, Vec<Flag>> = [("flags", get_all_flags.invoke())]
         .iter().cloned().collect();

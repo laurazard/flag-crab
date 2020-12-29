@@ -13,12 +13,16 @@ impl FlagRepo for InMemoryFlagRepo {
         }
     }
 
-    fn add_flag(&mut self, flag: Flag) {
+    fn add_flag(&mut self, mut flag: Flag) {
+        if flag.id == 0 {
+            flag.id = self.length() as u32 + 1;
+        }
+
         self.flags.push(flag);
     }
 
     fn remove_flag(&mut self, id: u32) {
-        self.flags.retain(|flag| flag.get_id() != id)
+        self.flags.retain(|flag| flag.id != id)
     }
 
     fn get_all_flags(&self) -> Vec<Flag> {
@@ -48,7 +52,19 @@ mod tests {
     }
 
     #[test]
-    fn adds() {
+    fn adds_new_flag() {
+        let flag = Flag::new(0, String::from("Test flag"));
+        let mut flag_repo = InMemoryFlagRepo::new();
+        let expected_flag = Flag::new(1, String::from("Test flag"));
+
+        flag_repo.add_flag(flag);
+
+        assert_eq!(flag_repo.flags[0], expected_flag);
+        assert_eq!(flag_repo.flags.len(), 1);
+    }
+
+    #[test]
+    fn adds_existing_flag() {
         let flag = Flag::new(17, String::from("Test flag"));
         let mut flag_repo = InMemoryFlagRepo::new();
         let same_flag = flag.clone();

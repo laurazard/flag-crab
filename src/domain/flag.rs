@@ -2,8 +2,8 @@ use serde::Serialize;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct Flag {
-    id: u32,
-    name: String
+    pub id: u32,
+    pub name: String
 }
 
 impl Flag {
@@ -12,10 +12,6 @@ impl Flag {
             id,
             name
         }
-    }
-
-    pub fn get_id(&self) -> u32 {
-        self.id
     }
 }
 
