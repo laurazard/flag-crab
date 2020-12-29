@@ -1,0 +1,27 @@
+/* Custom stuff
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.header {
+    width: 100%;
+    background-color: var(--background-color-softer);
+    padding: 1em 3em .5em;
+    margin-bottom: 2em;
+}
+
+.title {
+    font-size: x-large;
+    font-weight: 700;
+}
+
+table {
+    width: 100%;
+}
+
+td.id {
+    width: 10%;
+}

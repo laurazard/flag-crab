@@ -21,6 +21,7 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="static/css/normalize.css">
     <link rel="stylesheet" href="static/css/barebones.css">
+    <link rel="stylesheet" href="static/css/custom.css">
 
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -43,6 +44,26 @@
             <input class="button-primary" type="submit" value="Submit">
         </form>
     </div>
+    <div class="el-input el-input-group el-input-group--append el-input-group--prepend">
+        <div class="el-input-group__prepend"><span class="el-icon-plus"></span></div>
+        <input type="text" autocomplete="off" placeholder="Specific new flag description" class="el-input__inner">
+        <!----><!---->
+        <div class="el-input-group__append">
+            <div class="el-dropdown" disabled="disabled">
+                <div class="el-button-group">
+                    <button type="button" class="el-button el-button--primary"><!---->
+                        <!----><span> Create New Flag </span></button>
+                    <button type="button" class="el-button el-button--primary el-dropdown__caret-button"
+                            aria-haspopup="list" aria-controls="dropdown-menu-1389"><!----><!----><span><i
+                            class="el-dropdown__icon el-icon-arrow-down"></i></span></button>
+                </div>
+                <ul class="el-dropdown-menu el-popper" style="display: none;" id="dropdown-menu-1389">
+                    <li aria-disabled="true" class="el-dropdown-menu__item is-disabled"><!---->Create Simple Boolean
+                        Flag
+                    </li>
+                </ul>
+            </div>
+        </div><!----></div>
     <div>
         <table>
             <thead>
