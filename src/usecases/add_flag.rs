@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn test_invoke() {
-        let mut repo: Arc<Mutex<Box<dyn FlagRepo>>> = Arc::new(Mutex::new(Box::new(InMemoryFlagRepo::new())));
+        let repo: Arc<Mutex<Box<dyn FlagRepo>>> = Arc::new(Mutex::new(Box::new(InMemoryFlagRepo::new())));
         let mut usecase = AddFlag::new(Arc::clone(&repo));
         let flag = Flag::new(7, String::from("test flag"));
         let expected_flag = flag.clone();
