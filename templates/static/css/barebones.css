@@ -490,3 +490,11 @@ there.
     font-size: x-large;
     font-weight: 700;
 }
+
+table {
+    width: 100%;
+}
+
+td.id {
+    width: 10%;
+}
