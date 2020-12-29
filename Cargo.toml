@@ -9,8 +9,9 @@ edition = "2018"
 [dependencies]
 rocket = "0.4.5"
 serde = { version = "1.0", features = ["derive"] }
+chrono = { version = "0.4", features = ["serde"] }
 
 [dependencies.rocket_contrib]
 version = "0.4.6"
 default-features = true
-features = ["handlebars_templates", "tera_templates"]
+features = ["handlebars_templates", "tera_templates", "templates"]

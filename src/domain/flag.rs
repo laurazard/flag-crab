@@ -1,16 +1,21 @@
+use chrono::{DateTime, Local};
 use serde::Serialize;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct Flag {
     pub id: u32,
-    pub name: String
+    pub name: String,
+    pub last_updated: DateTime<Local>,
+    pub enabled: bool,
 }
 
 impl Flag {
     pub fn new(id: u32, name: String) -> Flag {
         Flag {
             id,
-            name
+            name,
+            last_updated: Local::now(),
+            enabled: true,
         }
     }
 }
@@ -22,7 +27,7 @@ impl PartialEq for Flag {
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
 
     use super::*;
 
