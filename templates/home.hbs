@@ -39,9 +39,9 @@
         <form action="/" method="post">
             <label for="exampleEmailInput">Your id</label>
             <input class="u-full-width" type="number" placeholder="18" id="exampleEmailInput" name="id">
-            <label for="description">Description</label>
+            <label for="description">Name</label>
             <input type="text" id="description" class="u-full-width" placeholder="Turbo boost..."
-                   name="description"/>
+                   name="name"/>
             <input class="button-primary" type="submit" value="Submit">
         </form>
     </div>
@@ -50,7 +50,7 @@
             <thead>
             <tr>
                 <th>id</th>
-                <th>description</th>
+                <th>name</th>
             </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@
                 <tr>
                     <td>{{id}}</td>
                     <td>
-                        {{description}}
+                        {{name}}
                     </td>
                 </tr>
             {{/each}}

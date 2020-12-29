@@ -3,14 +3,14 @@ use serde::Serialize;
 #[derive(Clone, Debug, Serialize)]
 pub struct Flag {
     id: u32,
-    description: String
+    name: String
 }
 
 impl Flag {
-    pub fn new(id: u32, description: String) -> Flag {
+    pub fn new(id: u32, name: String) -> Flag {
         Flag {
             id,
-            description
+            name
         }
     }
 
