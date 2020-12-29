@@ -479,3 +479,14 @@ there.
     margin: 0 auto;
     max-width: 1000px;
 }
+
+.header {
+    width: 100%;
+    background-color: var(--background-color-softer);
+    padding: 1em 3em .5em;
+}
+
+.title {
+    font-size: x-large;
+    font-weight: 700;
+}

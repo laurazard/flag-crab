@@ -11,5 +11,5 @@ use crate::domain::flag::Flag;
 pub(crate) fn index(get_all_flags: State<GetAllFlags>) -> Template {
     let context: HashMap<&str, Vec<Flag>> = [("flags", get_all_flags.invoke())]
         .iter().cloned().collect();
-    Template::render("new_home", &context)
+    Template::render("home", &context)
 }

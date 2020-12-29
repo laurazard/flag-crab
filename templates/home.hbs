@@ -5,7 +5,7 @@
     <!-- Basic Page Needs
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta charset="utf-8">
-    <title>Your page title here :)</title>
+    <title>Flag Crab</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -31,87 +31,40 @@
 
 <!-- Primary Page Layout
 –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<section class="header">
+    <h2 class="title">Flag Crab</h2>
+</section>
 <div class="container">
-    <section class="header">
-        <h2 class="title">Flagr!</h2>
-    </section>
-    <div class="grid-container halves">
-        <div>
-            <h4>Basic Page</h4>
-            <p>This index.html page is a placeholder with the CSS, font and favicon. It's just waiting for you to
-                add
-                some content! If you need some help hit up the <a href="https://acahir.github.io/Barebones/">Barebones
-                    documentation</a>.</p>
-        </div>
-        <div></div>
-    </div>
-    <div class="grid-container halves">
-        <div>
-            <!-- Standard buttons -->
-            <a class="button" href="#">Anchor button</a>
-            <button>Button element</button>
-            <input type="submit" value="submit input">
-            <input type="button" value="button input">
-        </div>
-        <div>
-            <!-- Primary buttons -->
-            <a class="button button-primary" href="#">Anchor button</a>
-            <button class="button-primary">Button element</button>
-            <input class="button-primary" type="submit" value="submit input">
-            <input class="button-primary" type="button" value="button input">
-        </div>
-    </div>
-    <div class="grid-container halves">
-        <div>
-        </div>
-        <div>
-        </div>
-    </div>
-    <div class="grid-container halves">
-        <form>
-            <div class="row">
-                <div class="six columns">
-                    <label for="exampleEmailInput">Your email</label>
-                    <input class="u-full-width" type="email" placeholder="test@mailbox.com" id="exampleEmailInput">
-                </div>
-                <div class="six columns">
-                    <label for="exampleRecipientInput">Reason for contacting</label>
-                    <select class="u-full-width" id="exampleRecipientInput">
-                        <option value="Option 1">Questions</option>
-                        <option value="Option 2">Admiration</option>
-                        <option value="Option 3">Can I get your number?</option>
-                    </select>
-                </div>
-            </div>
-            <label for="exampleMessage">Message</label>
-            <textarea class="u-full-width" placeholder="Hi Dave …" id="exampleMessage"></textarea>
-            <label class="example-send-yourself-copy">
-                <input type="checkbox">
-                <span class="label-body">Send a copy to yourself</span>
-            </label>
+    <div>
+        <form action="/" method="post">
+            <label for="exampleEmailInput">Your id</label>
+            <input class="u-full-width" type="number" placeholder="18" id="exampleEmailInput" name="id">
+            <label for="description">Description</label>
+            <input type="text" id="description" class="u-full-width" placeholder="Turbo boost..."
+                   name="description"/>
             <input class="button-primary" type="submit" value="Submit">
         </form>
     </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Flag name</th>
-            <th>flag description</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each flags}}
-        <tr>
-            <td>{{id}}</td>
-            <td>
-               {{description}}
-            </td>
-        </tr>
-        {{/each}}
-
-
-        </tbody>
-    </table>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each flags}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>
+                        {{description}}
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
