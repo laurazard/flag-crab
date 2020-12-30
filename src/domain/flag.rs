@@ -5,6 +5,7 @@ use serde::Serialize;
 pub struct Flag {
     pub id: u32,
     pub name: String,
+    pub description: String,
     pub last_updated: DateTime<Local>,
     pub enabled: bool,
 }
@@ -14,6 +15,7 @@ impl Flag {
         Flag {
             id,
             name,
+            description: String::from(""),
             last_updated: Local::now(),
             enabled: true,
         }
