@@ -1,16 +1,13 @@
 use crate::adapters::persistence::flag_repo::FlagRepo;
 use crate::domain::flag::Flag;
 
-
 pub(crate) struct InMemoryFlagRepo {
-    flags: Vec<Flag>
+    flags: Vec<Flag>,
 }
 
 impl FlagRepo for InMemoryFlagRepo {
     fn new() -> InMemoryFlagRepo {
-        InMemoryFlagRepo {
-            flags: Vec::new()
-        }
+        InMemoryFlagRepo { flags: Vec::new() }
     }
 
     fn add_flag(&mut self, mut flag: Flag) {
@@ -25,8 +22,26 @@ impl FlagRepo for InMemoryFlagRepo {
         self.flags.retain(|flag| flag.id != id)
     }
 
+    fn update_flag(&mut self, flag: Flag) {
+        for i in 0..self.flags.len() {
+            if self.flags[i].id == flag.id {
+                self.flags[i] = flag;
+                break;
+            }
+        }
+    }
+
     fn get_all_flags(&self) -> Vec<Flag> {
         self.flags.clone()
+    }
+
+    fn get_by_id(&self, id: u32) -> Option<Flag> {
+        for i in 0..self.flags.len() {
+            if self.flags[i].id == id {
+                return Some(self.flags[i].clone());
+            }
+        }
+        return None;
     }
 
     fn length(&self) -> usize {
@@ -42,9 +57,13 @@ mod tests {
     fn gets_length() {
         let mut flag_repo = InMemoryFlagRepo::new();
         assert_eq!(0, flag_repo.length());
-        flag_repo.flags.push(Flag::new(23, String::from("test flag")));
+        flag_repo
+            .flags
+            .push(Flag::new(23, String::from("test flag")));
         assert_eq!(1, flag_repo.length());
-        flag_repo.flags.push(Flag::new(24, String::from("another test flag")));
+        flag_repo
+            .flags
+            .push(Flag::new(24, String::from("another test flag")));
         assert_eq!(2, flag_repo.length());
         flag_repo.flags.pop();
         flag_repo.flags.pop();
@@ -89,12 +108,44 @@ mod tests {
     }
 
     #[test]
+    fn updates() {
+        let mut flag_repo = InMemoryFlagRepo::new();
+        let old_flag = Flag::new(7, String::from("old flag"));
+        flag_repo.add_flag(old_flag);
+
+        let new_flag = Flag::new(7, String::from("new flag"));
+        flag_repo.update_flag(new_flag);
+
+        assert_eq!(String::from("new flag"), flag_repo.get_all_flags()[0].name)
+    }
+
+    #[test]
+    fn gets_by_id() {
+        let mut flag_repo = InMemoryFlagRepo::new();
+        let expected_flags = vec![
+            Flag::new(13, String::from("tests")),
+            Flag::new(17, String::from("other tests")),
+            Flag::new(14, String::from("another test")),
+        ];
+
+        for flag in expected_flags.iter() {
+            flag_repo.add_flag(flag.clone())
+        }
+
+        assert_eq!(
+            String::from("other tests"),
+            flag_repo.get_by_id(17).unwrap().name
+        );
+    }
+
+    #[test]
     fn gets_all() {
         let mut flag_repo = InMemoryFlagRepo::new();
         let expected_flags = vec![
             Flag::new(13, String::from("tests")),
             Flag::new(17, String::from("other tests")),
-            Flag::new(14, String::from("another test"))];
+            Flag::new(14, String::from("another test")),
+        ];
 
         for flag in expected_flags.iter() {
             flag_repo.add_flag(flag.clone())
