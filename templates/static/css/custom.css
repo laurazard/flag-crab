@@ -6,7 +6,7 @@ html {
 
 .container {
     margin: 2em auto;
-    max-width: 1000px;
+    max-width: 1200px;
 }
 
 .header {
@@ -23,6 +23,22 @@ html {
 
 table {
     width: 100%;
+    max-width: 1000px;
+    min-width: 800px;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
+tbody tr:hover {
+    background: rgba(79, 70, 229, 0.2);
+}
+
+.truncate {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: inherit;
 }
 
 td.id {
@@ -189,4 +205,19 @@ input.hack2:focus {
 input:checked ~ .toggle__dot {
     transform: translateX(100%);
     background-color: rgb(79, 70, 229);
+}
+
+/* Diff
+------------------------------------- */
+
+pre {
+    font-family: monospace, monospace;
+}
+
+pre.diff del {
+    background-color: #f7b3b3;
+}
+
+pre.diff ins {
+    background-color: #b6ddc6;
 }
