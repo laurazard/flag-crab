@@ -45,7 +45,10 @@ mod tests {
         let update_flag_usecase = UpdateFlag::new(Arc::clone(&flag_repo_mutex));
         // FIXME: find a way to do this without waiting a random amount of time for it to be ready
         thread::spawn(|| {
-            rocket::ignite()
+            let config = rocket::config::Config::build(rocket::config::Environment::Development)
+                .port(8003)
+                .unwrap();
+            rocket::custom(config)
                 .manage(Mutex::new(update_flag_usecase))
                 .mount("/", routes![super::update_flag])
                 .launch();
@@ -54,7 +57,7 @@ mod tests {
 
         let params = [("enabled", "false")];
         reqwest::blocking::Client::new()
-            .post("http://localhost:8000/flag/1")
+            .post("http://localhost:8003/flag/1")
             .form(&params)
             .send();
 

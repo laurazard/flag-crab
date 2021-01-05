@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::sync::Mutex;
 
 use rocket::request::Form;
@@ -9,6 +8,7 @@ use rocket_contrib::templates::Template;
 use crate::domain::flag::Flag;
 use crate::usecases::add_flag::AddFlag;
 use crate::usecases::get_all_flags::GetAllFlags;
+use rocket::response::Redirect;
 
 #[derive(FromForm)]
 pub(crate) struct FlagInput {
@@ -21,19 +21,15 @@ pub(crate) struct FlagInput {
 pub(crate) fn create_flag(
     flag_input: Form<FlagInput>,
     add_flag: State<Mutex<AddFlag>>,
-    get_all_flags: State<GetAllFlags>,
-) -> Template {
+) -> Redirect {
     let mut new_flag = Flag::new(0, flag_input.name.clone());
     new_flag.enabled = flag_input.enabled.clone();
     new_flag.description = flag_input.description.clone();
     {
         add_flag.lock().unwrap().invoke(new_flag);
     }
-    let context: HashMap<&str, Vec<Flag>> = [("flags", get_all_flags.invoke())]
-        .iter()
-        .cloned()
-        .collect();
-    Template::render("home", context)
+
+    Redirect::to(format!("/"))
 }
 
 #[cfg(test)]
@@ -53,7 +49,10 @@ mod tests {
         let add_flag_usecase = AddFlag::new(Arc::clone(&flag_repo_mutex));
         // FIXME: find a way to do this without waiting a random amount of time for it to be ready
         thread::spawn(|| {
-            rocket::ignite()
+            let config = rocket::config::Config::build(rocket::config::Environment::Development)
+                .port(8001)
+                .unwrap();
+            rocket::custom(config)
                 .attach(Template::fairing())
                 .manage(get_all_flags_usecase)
                 .manage(Mutex::new(add_flag_usecase))
@@ -68,7 +67,7 @@ mod tests {
             ("enabled", "true"),
         ];
         reqwest::blocking::Client::new()
-            .post("http://localhost:8000")
+            .post("http://localhost:8001")
             .form(&params)
             .send();
 

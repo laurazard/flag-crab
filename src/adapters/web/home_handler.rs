@@ -34,7 +34,10 @@ mod tests {
         let get_all_flags_usecase = GetAllFlags::new(Arc::clone(&flag_repo_mutex));
         // FIXME: find a way to do this without waiting a random amount of time for it to be ready
         thread::spawn(|| {
-            rocket::ignite()
+            let config = rocket::config::Config::build(rocket::config::Environment::Development)
+                .port(8002)
+                .unwrap();
+            rocket::custom(config)
                 .attach(Template::fairing())
                 .manage(get_all_flags_usecase)
                 .mount("/", routes![super::index])
@@ -42,8 +45,7 @@ mod tests {
         });
         thread::sleep(Duration::from_millis(100));
 
-        let params = [("enabled", "false")];
-        let result = reqwest::blocking::get("http://localhost:8000/")
+        let result = reqwest::blocking::get("http://localhost:8002/")
             .unwrap()
             .text()
             .unwrap();
