@@ -43,7 +43,6 @@ mod tests {
         flag_repo.add_flag(Flag::new(1, String::from("A test flag name")));
         let flag_repo_mutex = Arc::new(Mutex::new(flag_repo));
         let update_flag_usecase = UpdateFlag::new(Arc::clone(&flag_repo_mutex));
-
         // FIXME: find a way to do this without waiting a random amount of time for it to be ready
         thread::spawn(|| {
             rocket::ignite()

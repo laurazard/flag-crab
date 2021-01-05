@@ -51,7 +51,6 @@ mod tests {
         let flag_repo_mutex = Arc::new(Mutex::new(flag_repo));
         let get_all_flags_usecase = GetAllFlags::new(Arc::clone(&flag_repo_mutex));
         let add_flag_usecase = AddFlag::new(Arc::clone(&flag_repo_mutex));
-
         // FIXME: find a way to do this without waiting a random amount of time for it to be ready
         thread::spawn(|| {
             rocket::ignite()
