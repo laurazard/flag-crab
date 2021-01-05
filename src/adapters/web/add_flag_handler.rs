@@ -3,11 +3,9 @@ use std::sync::Mutex;
 use rocket::request::Form;
 use rocket::State;
 use rocket::*;
-use rocket_contrib::templates::Template;
 
 use crate::domain::flag::Flag;
 use crate::usecases::add_flag::AddFlag;
-use crate::usecases::get_all_flags::GetAllFlags;
 use rocket::response::Redirect;
 
 #[derive(FromForm)]
@@ -37,6 +35,8 @@ mod tests {
     use super::*;
     use crate::adapters::persistence::flag_repo::FlagRepo;
     use crate::adapters::persistence::in_memory_flag_repo::InMemoryFlagRepo;
+    use crate::usecases::get_all_flags::GetAllFlags;
+    use rocket_contrib::templates::Template;
     use std::sync::Arc;
     use std::thread;
     use std::time::Duration;

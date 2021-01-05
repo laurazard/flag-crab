@@ -3,7 +3,9 @@ use std::sync::{Arc, Mutex};
 use rocket::*;
 use rocket_contrib::serve::StaticFiles;
 use rocket_contrib::templates::Template;
+use rocket_okapi::swagger_ui::*;
 
+use crate::adapters::api::get_flag_api_handler;
 use crate::adapters::persistence::flag_repo::FlagRepo;
 use crate::adapters::web::add_flag_handler;
 use crate::adapters::web::flag_detail_handler;
@@ -14,6 +16,7 @@ use crate::usecases::add_flag::AddFlag;
 use crate::usecases::get_all_flags::GetAllFlags;
 use crate::usecases::get_flag::GetFlag;
 use crate::usecases::update_flag::UpdateFlag;
+use rocket_okapi::routes_with_openapi;
 
 pub struct FlagCrab {}
 
@@ -39,8 +42,16 @@ impl FlagCrab {
                     home_handler::index,
                     add_flag_handler::create_flag,
                     update_flag_handler::update_flag,
-                    flag_detail_handler::get_flag
+                    flag_detail_handler::get_flag,
                 ],
+            )
+            .mount("/", routes_with_openapi![get_flag_api_handler::get_flag])
+            .mount(
+                "/swagger-ui/",
+                make_swagger_ui(&SwaggerUIConfig {
+                    url: "../openapi.json".to_owned(),
+                    ..Default::default()
+                }),
             )
             .launch();
     }

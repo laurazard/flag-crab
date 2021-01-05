@@ -1,7 +1,8 @@
 use chrono::{DateTime, Local};
+use rocket_okapi::JsonSchema;
 use serde::Serialize;
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, JsonSchema)]
 pub struct Flag {
     pub id: u32,
     pub name: String,
