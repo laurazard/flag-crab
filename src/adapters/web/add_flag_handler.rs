@@ -74,8 +74,8 @@ mod tests {
             .send();
 
         assert_eq!(
-            flag_repo_mutex.lock().unwrap().get_all_flags()[0].name,
-            String::from("a test flag")
+            String::from("a test flag"),
+            flag_repo_mutex.lock().unwrap().get_all_flags()[0].name
         );
     }
 }
