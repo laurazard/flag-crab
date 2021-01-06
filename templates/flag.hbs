@@ -183,18 +183,20 @@
                 Past snapshots for this flag
             </p>
         </div>
-        <div class="border-t border-gray-200">
-            <dl>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Snapshot 1
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 border-2 border-indigo-800 bg-white p-3 rounded-lg">
-                        <pre class="diff">{{json}}</pre>
-                    </dd>
-                </div>
-            </dl>
-        </div>
+        {{#each snapshots}}
+            <div class="border-t border-gray-200">
+                <dl>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Snapshot {{@key}}
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 border-2 border-indigo-800 bg-white p-3 rounded-lg">
+                            <pre class="diff">{{this}}</pre>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        {{/each}}
     </div>
 </div>
 <script>

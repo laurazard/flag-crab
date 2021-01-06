@@ -10,6 +10,6 @@ pub trait FlagRepo: Send + Sync {
     fn update_flag(&mut self, flag: Flag);
     fn get_by_id(&self, id: u32) -> Option<Flag>;
     fn get_all_flags(&self) -> Vec<Flag>;
-    fn get_flag_snapshots(&self) -> HashMap<u32, Flag>;
+    fn get_flag_snapshots(&self, id: u32) -> HashMap<u32, Flag>;
     fn length(&self) -> usize;
 }

@@ -1,15 +1,19 @@
 use crate::adapters::persistence::flag_repo::FlagRepo;
 use crate::domain::flag::Flag;
-use std::collections::hash_map::RandomState;
+use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
 pub(crate) struct InMemoryFlagRepo {
     flags: Vec<Flag>,
+    snapshots: HashMap<u32, HashMap<u32, Flag>>,
 }
 
 impl FlagRepo for InMemoryFlagRepo {
     fn new() -> InMemoryFlagRepo {
-        InMemoryFlagRepo { flags: Vec::new() }
+        InMemoryFlagRepo {
+            flags: Vec::new(),
+            snapshots: HashMap::new(),
+        }
     }
 
     fn add_flag(&mut self, mut flag: Flag) {
@@ -27,14 +31,11 @@ impl FlagRepo for InMemoryFlagRepo {
     fn update_flag(&mut self, flag: Flag) {
         for i in 0..self.flags.len() {
             if self.flags[i].id == flag.id {
+                self.archive_flag(flag.clone());
                 self.flags[i] = flag;
                 break;
             }
         }
-    }
-
-    fn get_all_flags(&self) -> Vec<Flag> {
-        self.flags.clone()
     }
 
     fn get_by_id(&self, id: u32) -> Option<Flag> {
@@ -46,12 +47,37 @@ impl FlagRepo for InMemoryFlagRepo {
         return None;
     }
 
+    fn get_all_flags(&self) -> Vec<Flag> {
+        self.flags.clone()
+    }
+
+    // FIXME: I was lazy, but this should just return an Option
+    fn get_flag_snapshots(&self, id: u32) -> HashMap<u32, Flag> {
+        match self.snapshots.get(&id) {
+            None => HashMap::new(),
+            Some(s) => s.clone(),
+        }
+    }
+
     fn length(&self) -> usize {
         self.flags.len()
     }
+}
 
-    fn get_flag_snapshots(&self) -> HashMap<u32, Flag, RandomState> {
-        unimplemented!()
+impl InMemoryFlagRepo {
+    fn archive_flag(&mut self, flag: Flag) {
+        match self.snapshots.entry(flag.id) {
+            Entry::Occupied(o) => {
+                let len = o.get().keys().len() as u32;
+                o.into_mut().insert(len, flag);
+            }
+            Entry::Vacant(_) => {
+                self.snapshots
+                    .entry(flag.id)
+                    .or_insert(HashMap::new())
+                    .insert(0, flag);
+            }
+        }
     }
 }
 
@@ -159,5 +185,18 @@ mod tests {
         }
 
         assert_eq!(expected_flags, *flag_repo.get_all_flags())
+    }
+
+    #[test]
+    fn gets_snapshots() {
+        let mut flag_repo = InMemoryFlagRepo::new();
+        let flag = Flag::new(13, String::from("test"));
+        flag_repo.add_flag(flag.clone());
+        let mut updated_flag = flag.clone();
+        updated_flag.enabled = false;
+
+        flag_repo.update_flag(updated_flag);
+
+        assert_eq!(flag, flag_repo.get_flag_snapshots(13)[&0]);
     }
 }

@@ -1,4 +1,5 @@
 #![feature(proc_macro_hygiene, decl_macro)]
+#![feature(entry_insert)]
 
 mod adapters;
 mod domain;
