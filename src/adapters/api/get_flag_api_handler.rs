@@ -3,25 +3,13 @@ use crate::usecases::get_flag::GetFlag;
 
 use rocket::*;
 use rocket_contrib::json::Json;
-use rocket_okapi::{openapi, JsonSchema};
-use serde::Serialize;
-use std::collections::HashMap;
-
-#[derive(Serialize, JsonSchema)]
-pub struct GetFlagResponse {
-    flag: Flag,
-    snapshots: HashMap<u32, Flag>,
-}
+use rocket_okapi::openapi;
 
 #[openapi]
 #[get("/api/flag/<id>")]
-pub fn get_flag(id: u32, get_flag_usecase: State<GetFlag>) -> Json<GetFlagResponse> {
-    let (flag, snapshots) = get_flag_usecase.invoke(id);
-    // FIXME: Looking back, it makes more sense if this just returns the current flag. Programmatic access users shouldn't care about the flag's history
-    Json(GetFlagResponse {
-        flag: flag.unwrap(),
-        snapshots,
-    })
+pub fn get_flag(id: u32, get_flag_usecase: State<GetFlag>) -> Json<Flag> {
+    let (flag, _) = get_flag_usecase.invoke(id);
+    Json(flag.unwrap())
 }
 
 #[cfg(test)]
