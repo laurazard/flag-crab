@@ -1,5 +1,7 @@
 use crate::adapters::persistence::flag_repo::FlagRepo;
 use crate::domain::flag::Flag;
+use std::collections::hash_map::RandomState;
+use std::collections::HashMap;
 
 pub(crate) struct InMemoryFlagRepo {
     flags: Vec<Flag>,
@@ -46,6 +48,10 @@ impl FlagRepo for InMemoryFlagRepo {
 
     fn length(&self) -> usize {
         self.flags.len()
+    }
+
+    fn get_flag_snapshots(&self) -> HashMap<u32, Flag, RandomState> {
+        unimplemented!()
     }
 }
 
@@ -104,19 +110,20 @@ mod tests {
 
         flag_repo.remove_flag(24);
 
-        assert_eq!(0, flag_repo.length())
+        assert_eq!(0, flag_repo.length());
     }
 
     #[test]
     fn updates() {
         let mut flag_repo = InMemoryFlagRepo::new();
         let old_flag = Flag::new(7, String::from("old flag"));
-        flag_repo.add_flag(old_flag);
+        flag_repo.add_flag(old_flag.clone());
 
         let new_flag = Flag::new(7, String::from("new flag"));
         flag_repo.update_flag(new_flag);
 
-        assert_eq!(String::from("new flag"), flag_repo.get_all_flags()[0].name)
+        assert_eq!(String::from("new flag"), flag_repo.get_all_flags()[0].name);
+        assert!(flag_repo.get_all_flags()[0].last_updated > old_flag.last_updated);
     }
 
     #[test]
